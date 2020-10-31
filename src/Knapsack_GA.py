@@ -3,32 +3,44 @@ import pandas as pd
 import random as rd
 from random import randint
 import matplotlib.pyplot as plt
+import io
+import base64
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+
+
+def to_base64(fig):
+    # Convert plot to PNG image
+    pngImage = io.BytesIO()
+    FigureCanvas(fig).print_jpg(pngImage)
+    # Encode PNG image to base64 string
+    pngImageB64String = "data:image/jpg;base64,"
+    pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
+    return pngImageB64String
+
 
 class Knapsack_Class_GA:
     maxx_val = 0
-
-    def __init__(self, weight_list, value_list, knapsack_value, gene_count=8, gen_count=50, crossover_rate=0.8, mutation_rate=0.4):
+    def __init__(self, weight_list, value_list, knapsack_value, gene_count, gen_count, crossover_rate, mutation_rate):
         self.item_number = np.arange(1, len(weight_list)+1)
         self.weight = np.array(weight_list)
         self.value = np.array(value_list)
         self.knapsack_threshold = knapsack_value
-        print('\nThe list is as follows:')
-        print('Item No.   Weight   Value')
-        for i in range(self.item_number.shape[0]):
-            print('{0}          {1}         {2}\n'.format(
-                i, self.weight[i], self.value[i]))
+        # print('\nThe list is as follows:')
+        # print('Item No.   Weight   Value')
+        # for i in range(self.item_number.shape[0]):
+        #     print('{0}          {1}         {2}\n'.format(i, self.weight[i], self.value[i]))
         self.solutions_per_pop = gene_count
-        self.pop_size = (self.solutions_per_pop, self.item_number.shape[0]) #(8,3)
-        print('Population size = {}'.format(self.pop_size))
-        initial_population = np.random.randint(2, size=self.pop_size)   #2 represents (allele) range
+        self.pop_size = (self.solutions_per_pop, self.item_number.shape[0])
+        # print('Population size = {}'.format(self.pop_size))
+        initial_population = np.random.randint(2, size=self.pop_size)
         self.initial_population = initial_population.astype(int)
         self.num_generations = gen_count
-        print('Initial population: \n{}'.format(initial_population))
+        # print('Initial population: \n{}'.format(initial_population))
         self.crossover_rate = crossover_rate
         self.mutation_rate = mutation_rate
 
     def cal_fitness(self):
-        # print(self.initial_population.shape[0]) #8
         fitness = np.empty(self.initial_population.shape[0])
         for i in range(self.initial_population.shape[0]):
             S1 = np.sum(self.initial_population[i] * self.value)
@@ -48,7 +60,6 @@ class Knapsack_Class_GA:
             fitness[max_fitness_idx[0][0]] = -999999
         return parents
 
-    # one-point crossover
     def crossover(self, parents, num_offsprings):
         offsprings = np.empty((num_offsprings, parents.shape[1]))
         crossover_point = int(parents.shape[1]/2)
@@ -95,51 +106,49 @@ class Knapsack_Class_GA:
             self.initial_population[0:parents.shape[0], :] = parents
             self.initial_population[parents.shape[0]:, :] = mutants
 
-        print('Last generation: \n{}\n'.format(self.initial_population))
+        # print('Last generation: \n{}\n'.format(self.initial_population))
         fitness_last_gen = self.cal_fitness()
-        print('Fitness of the last generation: \n{}\n'.format(fitness_last_gen))
+        # print('Fitness of the last generation: \n{}\n'.format(fitness_last_gen))
         max_fitness = np.where(fitness_last_gen == np.max(fitness_last_gen))
         parameters.append(self.initial_population[max_fitness[0][0], :])
         return (parameters, fitness_history)
 
     def get_solution_ga(self):
         parameters, self.fitness_history = self.optimize()
-        print('The optimized parameters for the given inputs are: \n{}'.format(parameters))
+        # print('The optimized parameters for the given inputs are: \n{}'.format(parameters))
         selected_items = self.item_number * parameters
-        print('\nSelected items that will maximize the knapsack without breaking it:')
-        for i in range(selected_items.shape[1]):
-            if selected_items[0][i] != 0:
-                print('{}\n'.format(selected_items[0][i]))
+        # print('\nSelected items that will maximize the knapsack without breaking it:')
+        # for i in range(selected_items.shape[1]):
+        #     if selected_items[0][i] != 0:
+        #         print('{}\n'.format(selected_items[0][i]))
 
         for i in range(selected_items.shape[1]):
             if selected_items[0][i] != 0:
                 self.maxx_val += self.value[i]
 
-        print("maxx_val is: ", self.maxx_val)
+        # print("maxx_val is : ", self.maxx_val)
         return self.maxx_val
 
     def get_graph(self):
-        fitness_history_mean = [np.mean(fitness)
-                                for fitness in self.fitness_history]
-        fitness_history_max = [np.max(fitness)
-                               for fitness in self.fitness_history]
-        plt.plot(list(range(self.num_generations)),
-                 fitness_history_mean, label='Mean Fitness')
-        plt.plot(list(range(self.num_generations)),
-                 fitness_history_max, label='Max Fitness')
+        fitness_history_mean = [np.mean(fitness) for fitness in self.fitness_history]
+        fitness_history_max = [np.max(fitness) for fitness in self.fitness_history]
+        fig = plt.figure(1)
+        plt.plot(list(range(self.num_generations)), fitness_history_mean, label='Mean Fitness')
+        plt.plot(list(range(self.num_generations)), fitness_history_max, label='Max Fitness')
         plt.legend()
         plt.title('Fitness through the generations')
         plt.xlabel('Generations')
         plt.ylabel('Fitness')
-        plt.show()
-        print(np.asarray(self.fitness_history).shape)
+        # plt.show()
+        # print(np.asarray(self.fitness_history).shape)
+        return to_base64(fig)
 
 
-def demo():
-    session_knapsack = Knapsack_Class_GA([10, 20, 30, 40], [60, 100, 130, 150], 50)  # default: 8,50,0.8,0.4
-    session_knapsack.get_solution_ga()
-    session_knapsack.get_graph()
+# def demo():
+#     session_knapsack = Knapsack_Class_GA([10, 20, 30, 40], [60, 100, 130, 150], 50)  # default: 8,50,0.8,0.4
+#     session_knapsack.get_solution_ga()
+#     session_knapsack.get_graph()
 
-# at runtime, __name__ becomes __main__
-if __name__ == '__main__':
-    demo()
+# # at runtime, __name__ becomes __main__
+# if __name__ == '__main__':
+#     demo()
