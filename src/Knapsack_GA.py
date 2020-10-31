@@ -1,12 +1,13 @@
+# to test this program, run Test_Knapsack_All.py file
 import numpy as np
-import pandas as pd
 import random as rd
 from random import randint
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
 import base64
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
 
 
 def to_base64(fig):
@@ -132,7 +133,7 @@ class Knapsack_Class_GA:
     def get_graph(self):
         fitness_history_mean = [np.mean(fitness) for fitness in self.fitness_history]
         fitness_history_max = [np.max(fitness) for fitness in self.fitness_history]
-        fig = plt.figure(1)
+        fig = plt.figure()
         plt.plot(list(range(self.num_generations)), fitness_history_mean, label='Mean Fitness')
         plt.plot(list(range(self.num_generations)), fitness_history_max, label='Max Fitness')
         plt.legend()
@@ -143,12 +144,11 @@ class Knapsack_Class_GA:
         # print(np.asarray(self.fitness_history).shape)
         return to_base64(fig)
 
+def demo():
+    session_knapsack = Knapsack_Class_GA([10, 20, 30, 40], [60, 100, 130, 150], 50, 8, 50, 0.8, 0.4)
+    session_knapsack.get_solution_ga()
+    # session_knapsack.get_graph()
 
-# def demo():
-#     session_knapsack = Knapsack_Class_GA([10, 20, 30, 40], [60, 100, 130, 150], 50)  # default: 8,50,0.8,0.4
-#     session_knapsack.get_solution_ga()
-#     session_knapsack.get_graph()
-
-# # at runtime, __name__ becomes __main__
-# if __name__ == '__main__':
-#     demo()
+# at runtime, __name__ becomes __main__
+if __name__ == '__main__':
+    demo()

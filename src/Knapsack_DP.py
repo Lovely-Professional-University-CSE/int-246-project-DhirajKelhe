@@ -13,10 +13,10 @@ class Knapsack_Class_DP:
         return K[count][knapsack_threshold]
 
 
-# if __name__ == '__main__':
-#     value = [60, 100, 120]
-#     weight = [10, 20, 30]
-#     knapsack_threshold = 50
-#     count = len(value)
-#     session_knapsack = Knapsack_Class_DP()
-#     print(session_knapsack.knapSack(knapsack_threshold, weight, value, count))
+if __name__ == '__main__':
+    value = [60, 100, 120]
+    weight = [10, 20, 30]
+    knapsack_threshold = 50
+    count = len(value)
+    session_knapsack = Knapsack_Class_DP()
+    print(session_knapsack.knapSack(knapsack_threshold, weight, value, count))
