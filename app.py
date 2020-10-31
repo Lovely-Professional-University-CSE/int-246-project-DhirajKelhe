@@ -1,5 +1,5 @@
 # import required libraries and programs
-from flask import Flask, render_template, url_for, request, flash, redirect, request
+from flask import Flask, render_template, url_for
 from flask_wtf import form
 from interface import GA_Interface
 from src import Knapsack_GA, Knapsack_DP
@@ -59,7 +59,6 @@ def home():
         dp_result = get_dp_sol(form)
         ga_result = ga_obj.get_solution_ga()
         ga_graph_base64  = ga_obj.get_graph()
-        #return redirect(url_for('result',form=form))
         return render_template('result.html', title="Results", heading="Results : Max Profit", GA_Result=ga_result, DP_Result=dp_result, Graph_GA_Result=ga_graph_base64)
     return render_template('home.html', title="Home", form=form, heading='Problem Details')
 
