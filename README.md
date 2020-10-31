@@ -3,6 +3,7 @@
 
 #### We have given a set of items, each with a weight (Wi) and a value (Vi), determine the number of each item included in a collection so that the total weight is less than or equal to a given limit of knapsack and the total value is as large as possible.
 
+&nbsp;
 # Approaches to Solve the Problem
 We can solve the 0-1 Knapsack problem with the help of given methods:
 1. Genetic Algorithm (GA)
@@ -35,22 +36,20 @@ We perform mutation to diversify the population. In mutation, we flip (toggle) t
 In the source file, the function 'mutation' is defined to create initial population based on given weights and values.
 
 #### We repeat these steps until our solution constraints are reached.
-&nbsp;
 
+&nbsp;
 ## Dynamic Programming (DP)
 In this approach, we consider all the possible weights from 1 to W (knapsack capacity) as the columns and given weights of items as the rows. If we consider ‘wi’ (weight in ‘ith’ row) we can fill it in all columns which have ‘weight values > wi’. Now two possibilities can take place:
 #### 1. Fill ‘wi’ in the given column.
 #### 2. Do not fill ‘wi’ in the given column.
 Now we have to take a maximum of these two possibilities, formally if we do not fill ‘ith’ weight in ‘jth’ column then DP[i][j] state will be same as DP[i-1][j] but if we fill the weight, DP[i][j] will be equal to the value of ‘wi’+ value of the column weighing ‘j-wi’ in the previous row. So we take the maximum of these two possibilities to fill the current state.
 After performing all the operations, the value of the last row and the last column will be our required answer.
+
 &nbsp;
-
 # Getting Started
-
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ## Prerequisites
-
 What libraries you need to run the program and how to install them
 
 ```
@@ -65,7 +64,6 @@ For backend:
 ```
 
 ## Installing
-
 A step by step series of examples that tell you how to get a development env running
 
 Use Python 3.7 >=
@@ -76,13 +74,12 @@ pip install flask-wtf
 pip install matplotlib
 pip install numpy
 ```
+
 &nbsp;
 # Running the website on localhost
-
 You can clone this repo and do the following
 
 ## Using Knapsack01
-
 To get going on Knapsack01, user should follow do the following:
 
 ```
@@ -107,10 +104,9 @@ To get going on Knapsack01, user should follow do the following:
   c. Dynamic Progarming result
   from where user can only come back to main page
 ```
+
 &nbsp;
-
 ## Accessing Deployed Version
-
 Knapsack01 is already deployed on Heroku, use can access it here : [Knapsack01](https://knapsack01.herokuapp.com/)
 &nbsp;
 
@@ -121,16 +117,13 @@ Knapsack01 is already deployed on Heroku, use can access it here : [Knapsack01](
 &nbsp;
 
 ## Authors
-
 * **Dhiraj Kelhe** - [DhirajKelhe](https://github.com/DhirajKelhe)
 * **Nishant Pandey** - [unexh](https://github.com/unexh)
 * **Sehajbir Singh** - [SehajbirThind](https://github.com/SehajbirThind)
 
-&nbsp;
-
 ## License
-
 This project is licensed under the Apache License - see the [LICENSE.md](LICENSE.md) file for details
 &nbsp;
+
 ## Acknowledgments
 * Inspiration : [Satvik Tiwari](https://medium.com/koderunners/genetic-algorithm-part-3-knapsack-problem-b59035ddd1d6)
