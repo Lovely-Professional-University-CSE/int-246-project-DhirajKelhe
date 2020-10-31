@@ -58,14 +58,9 @@ def home():
         ga_obj = get_ga(form)
         dp_result = get_dp_sol(form)
         ga_result = ga_obj.get_solution_ga()
-        # ga_graph_base64 = ga_obj.get_graph()
-        # return redirect(url_for('result',title="Results",heading="Results",GA_Result=ga_result,DP_Result=dp_result))
-        return render_template('result.html', title="Results", heading="Results", GA_Result=ga_result, DP_Result=dp_result, Graph_GA_Result=ga_obj.get_graph())
-    # try:
-    #     ga_graph_base64
-    #     del ga_graph_base64
-    # except NameError:
-    #     pass
+        ga_graph_base64  = ga_obj.get_graph()
+        #return redirect(url_for('result',form=form))
+        return render_template('result.html', title="Results", heading="Results : Max Profit", GA_Result=ga_result, DP_Result=dp_result, Graph_GA_Result=ga_graph_base64)
     return render_template('home.html', title="Home", form=form, heading='Problem Details')
 
 
