@@ -11,8 +11,8 @@ class GA_Interface(FlaskForm):
     # weight3 = IntegerField('Weights', validators=[optional(), NumberRange(min=minn, max=maxx)])
     # weight4 = IntegerField('Weights', validators=[optional(), NumberRange(min=minn, max=maxx)])
     
-    value1 = IntegerField('Values', validators=[DataRequired(),NumberRange(min=1, max=maxx)])
-    value2 = value3 = value4 = IntegerField('Values', validators=[optional(), NumberRange(min=minn, max=maxx)])
+    value1 = IntegerField('Values (Profit)', validators=[DataRequired(),NumberRange(min=1, max=maxx)])
+    value2 = value3 = value4 = IntegerField('Values (Profit)', validators=[optional(), NumberRange(min=minn, max=maxx)])
     # value3 = IntegerField('Values', validators=[optional(), NumberRange(min=minn, max=maxx)])
     # value4 = IntegerField('Values', validators=[optional(), NumberRange(min=minn, max=maxx)])
 
